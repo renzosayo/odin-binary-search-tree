@@ -57,6 +57,30 @@ class Tree {
     merged = [...merged, ...leftHalf, ...rightHalf];
     return merged;
   }
+
+  insert (data, root = this.root, parent = null) {
+    
+    // if trying to go left and root is null, attach, same for right
+    if (root === null) {
+      const newNode = new Node(data);
+      if (parent.data > newNode.data) parent.left = newNode;
+      else parent.right = newNode;
+      return;
+    }
+
+    // if root.data === data, return
+    if (root.data === data) return; 
+
+    // attached root as parent reference
+    if (root.data < data) {
+      console.log('went right');
+      this.insert(data, root.right, root);
+    } else {
+      console.log('went left');
+      this.insert(data, root.left, root);
+    }
+
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -73,5 +97,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
+tree.insert(5);
 
 prettyPrint(tree.root);
