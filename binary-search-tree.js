@@ -147,6 +147,29 @@ class Tree {
     }
   }
 
+  levelOrder (callback) {
+    if (this.root === null) return;
+    let queue = [];
+    let values = [];
+    queue.push(this.root);
+    values.push(this.root.data);
+    while (queue.length > 0) {
+      let current = queue.shift();
+      if (current.left !== null) {
+        queue.push(current.left);
+        values.push(current.left.data);
+      }
+      if (current.right !== null) {
+        queue.push(current.right);
+        values.push(current.right.data); 
+      }
+      if (callback !== undefined) {
+        callback(current);
+      }
+    }
+    if (callback === undefined) return values;
+  }
+
   // returns root if null, else go deeper
   findNextBiggest (root) {
     if (root.left === null) {
@@ -171,6 +194,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
 //tree.insert(21);
-console.log(tree.find(23));
 
 prettyPrint(tree.root);
