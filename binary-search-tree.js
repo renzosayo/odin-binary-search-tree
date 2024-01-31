@@ -170,6 +170,19 @@ class Tree {
     if (callback === undefined) return values;
   }
 
+  inOrder (callback, root = this.root, values = []) {
+    if (root === null) return;
+    this.inOrder(callback, root.left, values);
+
+    // do stuff here
+    if (callback) callback(root);
+    else values.push(root.data)
+
+    this.inOrder(callback, root.right, values);
+
+    if (callback === undefined) return values;
+  }
+
   // returns root if null, else go deeper
   findNextBiggest (root) {
     if (root.left === null) {
@@ -192,7 +205,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
+let tree = new Tree([4, 2, 6, 3, 1, 5]);
 //tree.insert(21);
 
 prettyPrint(tree.root);
