@@ -238,10 +238,15 @@ class Tree {
     }
   }
 
-  isBalanced (root = this.root) {
-    if (root === null) {
-      return;
+  isBalanced (root = this.root, arr = this.levelOrder()) {
+    if (root === null)  return;
+    while (arr.length > 0) {
+      let current = this.find(arr.shift());
+      if (Math.abs(this.height(current.left) - this.height(current.right)) > 1) {
+        return false;
+      }
     }
+    return true;
   }
 
   // returns root if null, else go deeper
@@ -267,13 +272,14 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let tree = new Tree([4, 2, 6, 3, 1, 5]);
-tree.insert(21);
-tree.insert(22);
-tree.insert(23);
+//  tree.insert(21);
+//  tree.insert(22);
+//  tree.insert(23);
 // console.log(tree.inOrder());
 // console.log(tree.preOrder());
 // console.log(tree.postOrder());
-console.log(tree.depth(tree.find(23)));
+//console.log(tree.depth(tree.find(23)));
 //console.log(tree.height(tree.find(21)));
+console.log(tree.isBalanced());
 
 prettyPrint(tree.root);
