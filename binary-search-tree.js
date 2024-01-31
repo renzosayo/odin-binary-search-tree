@@ -78,25 +78,21 @@ class Tree {
     }
   }
 
-  delete (data, root = this.root, parent = null) {
-    let toRemove = null;
+  delete (data, root = this.root, parent = null) { 
     // if root is null, value does not exist, return false
     if (root === null) {
       return false;
     }
+    let toRemove = null;
 
     // traverse tree to find node
     if (data === root.data) {
-      console.log('found' + root.data);
       toRemove = root;
     } else if (data > root.data) {
-      console.log('went right');
       this.delete(data, root.right, root);
     } else {
-      console.log('went left');
       this.delete(data, root.left, root);
     }
-
     if (toRemove === null)  return false;
 
     // determine children
@@ -104,6 +100,10 @@ class Tree {
       if (toRemove.data > parent.data) parent.right = null;
       else parent.left = null;
       return true;
+    } else if (toRemove.left === null || toRemove.right === null) {
+        let child = toRemove.left || toRemove.right;
+        if (parent.data > child.data) parent.left = child;
+        else parent.right = child;
     }
 
     //  -if one child, point parent to child
@@ -128,6 +128,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
 tree.insert(21);
-tree.delete(2);
+tree.delete(12);
 
 prettyPrint(tree.root);
