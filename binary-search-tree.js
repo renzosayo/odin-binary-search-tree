@@ -278,16 +278,28 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-let tree = new Tree([4, 2, 6, 3, 1, 5]);
-//  tree.insert(21);
-//  tree.insert(22);
-//  tree.insert(23);
-// console.log(tree.inOrder());
-// console.log(tree.preOrder());
-// console.log(tree.postOrder());
-//console.log(tree.depth(tree.find(23)));
-//console.log(tree.height(tree.find(21)));
-// console.log(tree.isBalanced());
-//console.log(tree.rebalance());
+function driver () {
+  const array = [ 99, 78, 22, 13, 9, 42, 81, 75, 1, 43 ];
+  let tree = new Tree(array);
+  prettyPrint(tree.root);
+  console.log('Is balanced: ' + tree.isBalanced());
+  console.log('Level Order: ' + tree.levelOrder());
+  console.log('Preorder: ' + tree.preOrder());
+  console.log('Inorder: ' + tree.inOrder());
+  console.log('Postorder: ' + tree.postOrder());
+  tree.insert(120);
+  tree.insert(101);
+  tree.insert(550);
+  tree.insert(199);
+  tree.insert(388);
+  console.log('Is balanced: ' + tree.isBalanced());
+  tree.rebalance();
+  prettyPrint(tree.root);
+  console.log('Is balanced: ' + tree.isBalanced());
+  console.log('Level Order: ' + tree.levelOrder());
+  console.log('Preorder: ' + tree.preOrder());
+  console.log('Inorder: ' + tree.inOrder());
+  console.log('Postorder: ' + tree.postOrder());
+}
 
-prettyPrint(tree.root);
+driver();
