@@ -249,6 +249,13 @@ class Tree {
     return true;
   }
 
+  rebalance () {
+    // get array by traversing and sort
+    let arr = this.sort(this.inOrder());
+    console.log(arr);
+    this.root = this.buildTree(arr);
+  }
+
   // returns root if null, else go deeper
   findNextBiggest (root) {
     if (root.left === null) {
@@ -280,6 +287,7 @@ let tree = new Tree([4, 2, 6, 3, 1, 5]);
 // console.log(tree.postOrder());
 //console.log(tree.depth(tree.find(23)));
 //console.log(tree.height(tree.find(21)));
-console.log(tree.isBalanced());
+// console.log(tree.isBalanced());
+//console.log(tree.rebalance());
 
 prettyPrint(tree.root);
