@@ -228,6 +228,22 @@ class Tree {
     return rightHeight;
   }
 
+  // accepts node instead of raw value as per instructions
+  depth (node, current = this.root, depth = 0) {
+    if (node.data === current.data) return depth;
+    if (node.data > current.data) {
+      return this.depth(node, current.right, depth + 1);
+    } else {
+      return this.depth(node, current.left, depth + 1);
+    }
+  }
+
+  isBalanced (root = this.root) {
+    if (root === null) {
+      return;
+    }
+  }
+
   // returns root if null, else go deeper
   findNextBiggest (root) {
     if (root.left === null) {
@@ -257,7 +273,7 @@ tree.insert(23);
 // console.log(tree.inOrder());
 // console.log(tree.preOrder());
 // console.log(tree.postOrder());
-
-console.log(tree.height(tree.find(21)));
+console.log(tree.depth(tree.find(23)));
+//console.log(tree.height(tree.find(21)));
 
 prettyPrint(tree.root);
