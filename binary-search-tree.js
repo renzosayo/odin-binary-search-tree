@@ -216,6 +216,18 @@ class Tree {
     if (callback === undefined) return values;
   }
 
+  // accepts node instead of raw value as per instructions
+  height (node, height = 0) {
+    // -1 because leaf nodes are 0
+    if (node === null) return -1;
+
+    // increment height at every pass
+    let leftHeight = this.height(node.left, height) + 1;
+    let rightHeight = this.height(node.right, height) + 1;
+    if (leftHeight > rightHeight) return leftHeight;
+    return rightHeight;
+  }
+
   // returns root if null, else go deeper
   findNextBiggest (root) {
     if (root.left === null) {
@@ -239,9 +251,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let tree = new Tree([4, 2, 6, 3, 1, 5]);
-//tree.insert(21);
-console.log(tree.inOrder());
-console.log(tree.preOrder());
-console.log(tree.postOrder());
+tree.insert(21);
+tree.insert(22);
+tree.insert(23);
+// console.log(tree.inOrder());
+// console.log(tree.preOrder());
+// console.log(tree.postOrder());
+
+console.log(tree.height(tree.find(21)));
 
 prettyPrint(tree.root);
