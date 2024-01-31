@@ -172,13 +172,46 @@ class Tree {
 
   inOrder (callback, root = this.root, values = []) {
     if (root === null) return;
+
+    // left
     this.inOrder(callback, root.left, values);
 
-    // do stuff here
+    // root
     if (callback) callback(root);
     else values.push(root.data)
 
+    // right
     this.inOrder(callback, root.right, values);
+    if (callback === undefined) return values;
+  }
+
+  preOrder (callback, root = this.root, values = []) {
+    if (root === null) return;
+
+    // root
+    if (callback) callback(root);
+    else values.push(root.data)
+
+    // left
+    this.preOrder(callback, root.left, values);
+
+    // right
+    this.preOrder(callback, root.right, values);
+    if (callback === undefined) return values;
+  }
+
+  postOrder (callback, root = this.root, values = []) {
+    if (root === null) return;
+
+    // left
+    this.postOrder(callback, root.left, values);
+
+    // right
+    this.postOrder(callback, root.right, values);
+
+    // root
+    if (callback) callback(root);
+    else values.push(root.data)
 
     if (callback === undefined) return values;
   }
@@ -207,5 +240,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let tree = new Tree([4, 2, 6, 3, 1, 5]);
 //tree.insert(21);
+console.log(tree.inOrder());
+console.log(tree.preOrder());
+console.log(tree.postOrder());
 
 prettyPrint(tree.root);
