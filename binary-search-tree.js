@@ -95,21 +95,64 @@ class Tree {
     }
     if (toRemove === null)  return false;
 
-    // determine children
+    // no children - point parent to null
     if (toRemove.left === null && toRemove.right === null) {
       if (toRemove.data > parent.data) parent.right = null;
       else parent.left = null;
       return true;
+
+      // one child - point parent to child
     } else if (toRemove.left === null || toRemove.right === null) {
         let child = toRemove.left || toRemove.right;
         if (parent.data > child.data) parent.left = child;
         else parent.right = child;
+      
+    // 2 children - find next biggest (newRoot), remove that, and replace toRemove
+    } else {
+      // always look in the right subtree
+      let newRoot = this.findNextBiggest(toRemove.right);
+      this.delete(newRoot.data);
+
+      // if parent exists, point to newRoot, else make it new this.root
+      if (parent) {
+        if (parent.data > newRoot.data) parent.left = newRoot;
+        else parent.right = newRoot;
+      } else {
+        this.root = newRoot;
+      }
+      
+      // newRoot.left point to toRemove.left, same for right
+      newRoot.left = toRemove.left;
+      newRoot.right = toRemove.right;
+      toRemove.data = null;
+      toRemove.left = null;
+      toRemove.right = null;
     }
 
-    //  -if one child, point parent to child
-    //  -if no children, point parent to null
+  }
 
-    // todo: if have both children
+  find (data, root = this.root) {
+    if (root === null) {
+      console.log('Does not exist.');
+      return false;
+    }
+    if (data === root.data) {
+      return root;
+    } else {
+      if (data > root.data) {
+        return this.find(data, root.right);
+      } else {
+        return this.find(data, root.left);
+      }
+    }
+  }
+
+  // returns root if null, else go deeper
+  findNextBiggest (root) {
+    if (root.left === null) {
+      return root;
+    }
+    return this.findNextBiggest(root.left);
   }
 }
 
@@ -127,7 +170,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
-tree.insert(21);
-tree.delete(12);
+//tree.insert(21);
+console.log(tree.find(23));
 
 prettyPrint(tree.root);
