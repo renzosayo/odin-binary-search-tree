@@ -59,7 +59,6 @@ class Tree {
   }
 
   insert (data, root = this.root, parent = null) {
-    
     // if trying to go left and root is null, attach, same for right
     if (root === null) {
       const newNode = new Node(data);
@@ -73,13 +72,44 @@ class Tree {
 
     // attached root as parent reference
     if (root.data < data) {
-      console.log('went right');
       this.insert(data, root.right, root);
     } else {
-      console.log('went left');
       this.insert(data, root.left, root);
     }
+  }
 
+  delete (data, root = this.root, parent = null) {
+    let toRemove = null;
+    // if root is null, value does not exist, return false
+    if (root === null) {
+      return false;
+    }
+
+    // traverse tree to find node
+    if (data === root.data) {
+      console.log('found' + root.data);
+      toRemove = root;
+    } else if (data > root.data) {
+      console.log('went right');
+      this.delete(data, root.right, root);
+    } else {
+      console.log('went left');
+      this.delete(data, root.left, root);
+    }
+
+    if (toRemove === null)  return false;
+
+    // determine children
+    if (toRemove.left === null && toRemove.right === null) {
+      if (toRemove.data > parent.data) parent.right = null;
+      else parent.left = null;
+      return true;
+    }
+
+    //  -if one child, point parent to child
+    //  -if no children, point parent to null
+
+    // todo: if have both children
   }
 }
 
@@ -97,6 +127,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 let tree = new Tree([2, 8, 12, 4, 34, 9, 8]);
-tree.insert(5);
+tree.insert(21);
+tree.delete(2);
 
 prettyPrint(tree.root);
